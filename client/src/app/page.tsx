@@ -1,65 +1,100 @@
-import Image from "next/image";
+"use client";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
-export default function Home() {
+// NOTE: You can replace the font by importing a Google Font via next/font later.
+// For now I simulate a compact gothic/tech style with heavy shadows.
+
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-black text-white select-none">
+      {/* INTENSE HELL BACKGROUND */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Deep gradient base */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-b from-red-950 via-black to-black"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5 }}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+
+        {/* Lava pulses */}
+        <motion.div
+          className="absolute -inset-40 bg-red-800 blur-[200px] opacity-40 rounded-full"
+          animate={{ scale: [1, 1.6, 1], opacity: [0.3, 0.55, 0.3] }}
+          transition={{ duration: 7, repeat: Infinity }}
+        />
+
+        {/* Vertical energetic beams */}
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute top-0 w-[2px] h-full bg-red-600/20"
+            style={{ left: `${15 + i * 15}%` }}
+            animate={{ opacity: [0.1, 0.5, 0.1], height: ["60%", "100%", "60%"] }}
+            transition={{ duration: 3 + i, repeat: Infinity, repeatType: "reverse" }}
+          />
+        ))}
+
+        {/* Floating sparks */}
+        {[...Array(40)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-red-400/80 rounded-full shadow-md shadow-red-500"
+            style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
+            animate={{
+              y: [0, -20 - Math.random() * 30],
+              opacity: [1, 0],
+            }}
+            transition={{ duration: 1 + Math.random() * 2, repeat: Infinity }}
+          />
+        ))}
+      </div>
+
+      {/* CONTENT */}
+      <div className="relative z-10 flex flex-col items-center gap-10 px-6">
+        {/* STRAIGHT, COMPACT, HEAVY 3D TITLE */}
+        <motion.h1
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2 }}
+          className="text-center font-black tracking-tight leading-none text-[3.5rem] sm:text-[5rem]"
+          style={{
+            fontFamily: "'Black Ops One', sans-serif", // You can swap with an imported gothic font
+            color: "#ffdda6",
+            textShadow:
+              "0px 1px 0px #ffbd6b, 0px 2px 0px #ff9f45, 0px 3px 0px #ff7a1c, 0px 4px 0px #d45100, 0px 5px 15px rgba(255,80,0,0.7), 0px 0px 35px rgba(255,0,0,0.7)",
+          }}
+        >
+          The Intolerant Network
+        </motion.h1>
+
+        {/* SMOOTH SEARCH BAR */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9, duration: 0.9 }}
+          className="w-full max-w-xl"
+        >
+          <div className="relative group">
+            <input
+              type="text"
+              placeholder="Rechercher…"
+              className="w-full rounded-2xl border border-red-700/50 bg-black/40 px-5 py-3 text-lg text-neutral-200 shadow-lg transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-700/50 backdrop-blur-md group-hover:border-red-500/80"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            <div className="absolute inset-0 rounded-2xl opacity-10 group-hover:opacity-25 bg-gradient-to-r from-red-600 to-orange-500 blur-xl transition-all duration-300" />
+          </div>
+        </motion.div>
+
+        {/* NAVIGATION BUTTONS */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.4, duration: 1 }}
+          className="flex flex-wrap gap-6 pt-4 items-center justify-center"
+        >
+        </motion.div>
+      </div>
+    </main>
   );
 }
